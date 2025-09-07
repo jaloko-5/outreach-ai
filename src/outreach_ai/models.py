@@ -64,3 +64,13 @@ class Suppression(Base):
     email = Column(String, unique=True)
     reason = Column(String)
     created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class Event(Base):
+    __tablename__ = "events"
+
+    id = Column(Integer, primary_key=True, index=True)
+    message_id = Column(String, index=True)
+    type = Column(String)
+    timestamp = Column(DateTime, default=datetime.utcnow)
+    meta = Column(String, nullable=True)
