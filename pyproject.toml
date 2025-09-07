@@ -1,0 +1,18 @@
+[project]
+name = "outreach_ai"
+version = "0.1.0"
+description = "Mystrika-inspired email outreach application"
+authors = ["Your Name <you@example.com>"]
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "sqlalchemy",
+    "aiosmtplib",
+    "jinja2",
+    "typer",
+    "python-dotenv",
+    "pydantic",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
