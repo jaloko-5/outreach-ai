@@ -1,5 +1,7 @@
 """Database setup and session management for Outreach AI."""
 import os
+from .models import Base
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -23,3 +25,8 @@ def get_session():
         yield db
     finally:
         db.close()
+
+
+def init_db():
+    """Initialize database by creating all tables."""
+    Base.metadata.create_all(bind=engine)
