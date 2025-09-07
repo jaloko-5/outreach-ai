@@ -94,3 +94,43 @@ def moving_average(data: List[float], window_size: int = 3) -> List[float]:
         window = data[i : i + window_size]
         avgs.append(sum(window) / window_size)
     return avgs
+
+
+def render_dashboard(session):
+    """
+    Generate an HTML dashboard summary using the database session.
+
+    Args:
+        session: SQLAlchemy session.
+
+    Returns:
+        HTML string with metrics.
+    """
+    from .models import Event, Message
+
+    total_messages = session.query(Message).count()
+    open_count = session.query(Event).filter(Event.type == "open").count()
+    click_count = session.query(Event).filter(Event.type == "click").count()
+    unsub_count = session.query(Event).filter(Event.type == "unsub").count()
+
+    # Compute percentages using helper functions
+    success_pct = success_percentage(total_messages, open_count)
+    open_rate = engagement_rate(total_messages, open_count)
+    click_rate = engagement_rate(total_messages, click_count)
+    unsub_rate = engagement_rate(total_messages, unsub_count)
+
+    html = f"""
+    <html>
+      <head><title>Campaign Dashboard</title></head>
+      <body>
+        <h1>Campaign Dashboard</h1>
+        <ul>
+          <li>Success % (inbox placement): <b>{success_pct}</b></li>
+          <li>Open rate: <b>{open_rate}</b></li>
+          <li>Click rate: <b>{click_rate}</b></li>
+          <li>Unsubscribes: <b>{unsub_count}</b></li>
+        </ul>
+      </body>
+    </html>
+    """
+    return html
